@@ -1,0 +1,39 @@
+! Dark
+#define S_base01 #586e75
+#define S_base1 #93a1a1
+
+! Light
+! #define S_base01 #93a1a1
+! #define S_base1 #586e75
+
+*cursorColor: S_base1
+*pointerColorBackground: S_base01
+*pointerColorForeground: S_base1
+
+xterm*Background: #111111
+xterm*Foreground: #FBFBFB
+xterm*termName: xterm-256color
+
+urxvt*background: #111111
+urxvt*foreground: #FBFBFB
+urxvt*termName: xterm-256color
+urxvt*font:6x13,xft:WenQuanYi Bitmap Song:pixelsize=11:antialias=false
+urxvt*boldFont:6x13bold,xft:WenQuanYi Bitmap Song:style=Bold:pixelsize=11:antialias=false
+urxvt*scrollBar: false
+
+urxvt*color0:  #2E3436
+urxvt*color1:  #a40000
+urxvt*color2:  #4E9A06
+urxvt*color3:  #C4A000
+urxvt*color4:  #3465A4
+urxvt*color5:  #75507B
+urxvt*color6:  #ce5c00
+urxvt*color7:  #babdb9
+urxvt*color8:  #555753
+urxvt*color9:  #EF2929
+urxvt*color10: #8AE234
+urxvt*color11: #FCE94F
+urxvt*color12: #729FCF
+urxvt*color13: #AD7FA8
+urxvt*color14: #fcaf3e
+urxvt*color15: #EEEEEC

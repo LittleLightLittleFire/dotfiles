@@ -1,0 +1,188 @@
+"vundle
+filetype off
+
+set rtp+=~/.vim/bundle/vundle
+call vundle#begin()
+
+"self manage
+Plugin 'gmarik/vundle'
+
+"from github
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
+Plugin 'kien/ctrlp.vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'croaker/mustang-vim'
+Plugin 'rainux/vim-desert-warm-256'
+Plugin 'jeffkreeftmeijer/vim-numbertoggle'
+Plugin 'raichoo/haskell-vim'
+Plugin 'bitc/vim-hdevtools'
+Plugin 'wavded/vim-stylus'
+
+"from vim-scripts
+Plugin 'a.vim'
+Plugin 'xoria256.vim'
+call vundle#end()
+
+filetype plugin indent on
+
+set hidden
+set number
+set relativenumber
+set showmode
+set encoding=utf-8
+set showcmd
+set title
+set guifont=DejaVu\ LGC\ Sans\ Mono\ 9
+set undofile
+set undodir=/tmp//
+
+" use sh shell to prevent syntastic from whinging
+set shell=/bin/sh
+
+" commands
+command Mk make! | copen
+
+"keymaps
+set pastetoggle=<F2>
+cmap w!! w !sudo tee % > /dev/null
+cmap hex %!xxd
+cmap unhex %!xxd -r
+nnoremap <F2> :set invpaste paste?<CR>
+nnoremap <Leader>zz :let &scrolloff=999-&scrolloff<CR>
+nnoremap <Leader>q :nohlsearch<CR>
+inoremap <c-a> <esc>I
+inoremap <c-e> <esc>A
+" override H and L, since they are shit
+noremap H ^
+noremap L g_
+
+map Q <Nop>
+map <C-o> <Nop>
+
+"make vim terminal less dumb
+cnoremap <C-a>  <Home>
+cnoremap <C-b>  <Left>
+cnoremap <C-f>  <Right>
+cnoremap <C-d>  <Delete>
+cnoremap <M-b>  <S-Left>
+cnoremap <M-f>  <S-Right>
+cnoremap <M-d>  <S-right><Delete>
+cnoremap <Esc>b <S-Left>
+cnoremap <Esc>f <S-Right>
+cnoremap <Esc>d <S-right><Delete>
+cnoremap <C-g>  <C-c>
+
+"syntastic c++11
+let g:syntastic_cpp_compiler = 'clang++'
+let g:syntastic_cpp_compiler_options = ' -std=c++14 -Wall'
+let g:syntastic_tex_checkers = ['']
+let g:syntastic_python_checkers = ['flake8']
+let g:syntastic_python_flake8_args = '--ignore=E501'
+
+"neocomplete
+let g:neocomplete#enable_at_startup = 1
+inoremap <expr><C-f> pumvisible() ? "\<C-n>" : "\<C-f>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><C-g> neocomplete#undo_completion()
+"disable annoying preview
+set completeopt-=preview
+
+" omnicomplete
+set omnifunc=syntaxcomplete#Complete
+
+"control-p
+set wildignore+=*/node_modules/*,*/bower_components/*
+
+"mouse
+set mouse=a
+
+"white space
+set tabstop=4 shiftwidth=4 softtabstop=4
+set expandtab
+set backspace=indent,eol,start
+
+"show lastline
+set display=lastline
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+"gui options
+set go-=m "remove menubar
+set go-=r "remove scrollbar
+set go-=T "remove toolbar
+
+"colour scheme
+syntax on
+set background=dark
+
+"fix for gnome
+if $COLORTERM == 'gnome-terminal'
+    set t_Co=256
+endif
+
+"choices: solarized, desert256, xoria256, mustang, inkpot
+if has("gui_running")
+    colorscheme desert-warm-256
+else
+    if &t_Co > 8
+        colorscheme xoria256
+    else
+        colorscheme desert
+    endif
+endif
+
+"searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+"egrep by default
+nnoremap / /\v
+vnoremap / /\v
+
+"filetype specific
+"example - autocmd FileType html setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+au BufRead,BufNewFile *.g set syntax=antlr3
+au BufRead,BufNewFile *.y set syntax=happy
+au BufRead,BufNewFile *.cl set syntax=opencl
+au BufRead,BufNewFile *.hsc set syntax=haskell
+
+autocmd FileType makefile setlocal noexpandtab
+
+"match my <> for c++
+autocmd FileType cpp set mps+=<:>
+
+"go uses tabs by default
+autocmd FileType go setlocal noexpandtab listchars=tab:\ \ ,trail:.,extends:#,nbsp:.
+
+autocmd FileType ruby setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType css setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType scss setlocal tabstop=4 shiftwidth=4 softtabstop=4
+autocmd FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
+autocmd FileType lisp setlocal tabstop=2 shiftwidth=2 softtabstop=2
+
+"plugin specific hacks
+
+"hdevtools
+function! FindCabalSandboxRoot()
+    return finddir('.cabal-sandbox', './;')
+endfunction
+
+function! FindCabalSandboxRootPackageConf()
+    return glob(FindCabalSandboxRoot().'/*-packages.conf.d')
+endfunction
+
+let g:syntastic_haskell_hdevtools_args = '-g-ilib -g-isrc -g-i. -g-idist/build/autogen -g-Wall -g-package-conf='.FindCabalSandboxRootPackageConf()
+let g:haskell_indent_if = 4
+let g:haskell_indent_case = 4
+let g:haskell_indent_let = 4
+let g:haskell_indent_where = 4
+let g:haskell_indent_in = 0
