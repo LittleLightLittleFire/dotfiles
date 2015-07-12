@@ -21,6 +21,7 @@ Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'raichoo/haskell-vim'
 Plugin 'bitc/vim-hdevtools'
 Plugin 'wavded/vim-stylus'
+Plugin 'fatih/vim-go'
 
 "from vim-scripts
 Plugin 'a.vim'
@@ -170,6 +171,7 @@ autocmd FileType jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType lisp setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
 "plugin specific hacks
+let g:go_fmt_command = "goimports"
 
 "hdevtools
 function! FindCabalSandboxRoot()
