@@ -170,6 +170,11 @@ autocmd FileType scala setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType jade setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType lisp setlocal tabstop=2 shiftwidth=2 softtabstop=2
 
+"folder specific hacks
+if filereadable($HOME . '/.vimlocal')
+    execute 'source ' . $HOME . '/.vimlocal'
+endif
+
 "plugin specific hacks
 let g:go_fmt_command = "goimports"
 
